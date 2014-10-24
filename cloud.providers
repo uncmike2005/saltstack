@@ -1,0 +1,26 @@
+ec2_eu_ireland:
+  # ip address salt-cloud should connect to
+  ssh_interface: private_ips
+  # aws credentials
+  id: MYAWSACCESSKEY 
+  key: MYAWSSECRETKEY
+  # ssh key
+  keyname: saltmaster_key
+  private_key: /etc/salt/my_salt_cloud_key
+  # aws location
+  location: eu-west-1
+  availability_zone: eu-west-1a
+  # aws security group
+  securitygroup: SaltInstances
+  # aws ami
+  size: Micro Instance
+  # delete aws root volume when minion is destroyed
+  del_root_vol_on_destroy: True
+  # local user
+  ssh_username: ec2-user
+  # rename on destroy
+  rename_on_destroy: True
+  provider: ec2
+  minion:
+    master: MYPRIVATEIP
+

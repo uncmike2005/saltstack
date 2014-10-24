@@ -1,0 +1,4 @@
+base_ec2_private:
+  provider: ec2_eu_ireland
+  image: ami-8cfc51fb
+
