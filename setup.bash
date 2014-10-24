@@ -1,7 +1,7 @@
 #!/bin/bash
-#start the salt master
+#start the salt master and json parser
 rpm -Uvh http://ftp.linux.ncsu.edu/pub/epel/6/i386/epel-release-6-8.noarch.rpm
-yum -y install git salt-master jq
+yum -y install salt-master jq
 service salt-master start
 
 ##stuff to do
@@ -18,7 +18,7 @@ export AWS_SESSION_TOKEN=`jq -r '.Token' <mycreds`
 export AWS_DEFAULT_REGION='eu-west-1'
 
 ##generate key and push to aws
-ssh-keygen -f /etc/salt/my_salt_cloud_key -t rsa -b 4096
+ssh-keygen -q -f /etc/salt/my_salt_cloud_key -t rsa -b 4096 -q -N ""
 aws ec2 delete-key-pair --key-name salt_cloud_key
 aws ec2 import-key-pair --key-name salt_cloud_key --public-key-material file:///etc/salt/my_salt_cloud_key.pub
 
@@ -29,19 +29,19 @@ aws ec2 create-security-group \
     --description "The Security Group applied to all salt-cloud instances"
 aws ec2 authorize-security-group-ingress \
     --group-name MySecurityGroupSaltCloudInstances \
-    --source-group MySecurityGroupSaltCloud \
+    --source-group MySecurityGroupSaltCloudInstances \
     --protocol tcp --port all
 aws ec2 authorize-security-group-egress \
     --group-name MySecurityGroupSaltCloudInstances \
-    --source-group MySecurityGroupSaltCloud \
+    --source-group MySecurityGroupSaltCloudInstances \
     --protocol tcp --port all
 aws ec2 authorize-security-group-egress \
     --group-name MySecurityGroupSaltCloudInstances \
-    --source-group MySecurityGroupSaltCloud \
+    --source-group MySecurityGroupSaltCloudInstances \
     --protocol tcp --port all --cidr 0.0.0.0/0
 aws ec2 authorize-security-group-egress \
     --group-name MySecurityGroupSaltCloudInstances \
-    --source-group MySecurityGroupSaltCloud \
+    --source-group MySecurityGroupSaltCloudInstances \
     --protocol udp --port all --cidr 0.0.0.0/0
 
 
