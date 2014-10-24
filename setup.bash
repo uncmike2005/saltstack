@@ -6,7 +6,7 @@ service salt-master start
 
 ##stuff to do
 
-##set up aws cli
+##set up aws cli - assumes saltProvisioner IAM role with EC2 privs
 wget https://bootstrap.pypa.io/get-pip.py
 python get-pip.py
 pip install awscli
@@ -22,29 +22,27 @@ ssh-keygen -q -f /etc/salt/my_salt_cloud_key -t rsa -b 4096 -q -N ""
 aws ec2 delete-key-pair --key-name salt_cloud_key
 aws ec2 import-key-pair --key-name salt_cloud_key --public-key-material file:///etc/salt/my_salt_cloud_key.pub
 
-##set up security groups
-aws ec2 delete-security-group --group-name MySecurityGroupSaltCloudInstances
-aws ec2 create-security-group \
-    --group-name MySecurityGroupSaltCloudInstances \
-    --description "The Security Group applied to all salt-cloud instances"
-aws ec2 authorize-security-group-ingress \
-    --group-name MySecurityGroupSaltCloudInstances \
-    --source-group MySecurityGroupSaltCloudInstances \
-    --protocol tcp --port all
-aws ec2 authorize-security-group-egress \
-    --group-name MySecurityGroupSaltCloudInstances \
-    --source-group MySecurityGroupSaltCloudInstances \
-    --protocol tcp --port all
-aws ec2 authorize-security-group-egress \
-    --group-name MySecurityGroupSaltCloudInstances \
-    --source-group MySecurityGroupSaltCloudInstances \
-    --protocol tcp --port all --cidr 0.0.0.0/0
-aws ec2 authorize-security-group-egress \
-    --group-name MySecurityGroupSaltCloudInstances \
-    --source-group MySecurityGroupSaltCloudInstances \
-    --protocol udp --port all --cidr 0.0.0.0/0
+##set up security groups - do this manually for now
+#aws ec2 delete-security-group --group-name MySecurityGroupSaltCloudInstances
+#aws ec2 create-security-group \
+#    --group-name MySecurityGroupSaltCloudInstances \
+#    --description "The Security Group applied to all salt-cloud instances"
+#aws ec2 authorize-security-group-ingress \
+#    --group-name MySecurityGroupSaltCloudInstances \
+#    --source-group MySecurityGroupSaltCloudInstances \
+#    --protocol tcp --from-port 1 --to-port 65535
+#aws ec2 authorize-security-group-egress \
+#    --group-name MySecurityGroupSaltCloudInstances \
+#    --source-group MySecurityGroupSaltCloudInstances \
+#    --protocol tcp --from-port 1 --to-port 65535
+#aws ec2 authorize-security-group-egress \
+#    --group-name MySecurityGroupSaltCloudInstances \
+#    --protocol tcp --from-port 1 --to-port 65535 --cidr 0.0.0.0/0
+#aws ec2 authorize-security-group-egress \
+#    --group-name MySecurityGroupSaltCloudInstances \
+#    --protocol udp --from-port 1 --to-port 65535 --cidr 0.0.0.0/0
 
 
 ##set up cloud.providers and cloud.profile
-
+##still need to do this
 
