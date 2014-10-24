@@ -8,7 +8,7 @@ service salt-master start
 
 ##set up aws cli
 wget https://bootstrap.pypa.io/get-pip.py
-sudo python get-pip.py
+python get-pip.py
 pip install awscli
 mkdir ~/.aws
 wget -O mycreds -q 'http://169.254.169.254/latest/meta-data/iam/security-credentials/saltProvisioner'
