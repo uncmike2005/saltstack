@@ -1,4 +1,5 @@
-#start the salt maste
+#!/bin/bash
+#start the salt master
 rpm -Uvh http://ftp.linux.ncsu.edu/pub/epel/6/i386/epel-release-6-8.noarch.rpm
 yum -y install git salt-master jq
 service salt-master start
@@ -34,11 +35,11 @@ aws ec2 authorize-security-group-egress \
     --group-name MySecurityGroupSaltCloudInstances \
     --source-group MySecurityGroupSaltCloud \
     --protocol tcp --port all
-aws ec2 authorize-secrrity-group-egress \
+aws ec2 authorize-security-group-egress \
     --group-name MySecurityGroupSaltCloudInstances \
     --source-group MySecurityGroupSaltCloud \
     --protocol tcp --port all --cidr 0.0.0.0/0
-aws ec2 authorize-secrrity-group-egress \
+aws ec2 authorize-security-group-egress \
     --group-name MySecurityGroupSaltCloudInstances \
     --source-group MySecurityGroupSaltCloud \
     --protocol udp --port all --cidr 0.0.0.0/0
