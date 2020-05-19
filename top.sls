@@ -1,0 +1,3 @@
+base:
+  '*':
+    - unattended_upgrades
